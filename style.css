@@ -1,0 +1,15 @@
+
+#container{
+    display: flex;
+    flex-direction: column;
+    width: 320px;
+}
+
+.row{
+    display: flex;
+}
+.grid{
+    border-style: solid;
+    padding: 16px;
+}
+
