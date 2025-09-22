@@ -1,15 +1,17 @@
 const container = document.querySelector("#grid-container");
-
 const staticBtn = document.getElementById("staticMode");
 const rainbowBtn = document.getElementById("rainbowMode");
 const eraserBtn = document.getElementById("eraser");
 const clearBtn = document.getElementById("clearSketch");
 const toggleBtn = document.getElementById("toggleGrid");
 
+const rangeInput = document.querySelector("#gridSize");
+const rangeLabel = document.querySelector(".range-label");
 
-let size = 16;
+let size = rangeInput.value; 
 let isDrawing = false;
 let action = "draw";
+let currentColor = "black";
 
 function createGrid(){
     container.innerHTML = '';
@@ -24,59 +26,98 @@ function createGrid(){
         }
         container.appendChild(row);
     }
-
+    attachListener();
 }
 
-function draw(grid) {
-    grid.style.backgroundColor = 'black'; 
+function draw(grid){
+    if(currentColor === "rainbowMode")
+        grid.style.backgroundColor = `rgb(${Math.floor(Math.random()*256)}, ${Math.floor(Math.random()*256)}, ${Math.floor(Math.random()*256)})`;
+    else
+    grid.style.backgroundColor = currentColor; 
 }
+
 
 function erase(grid){
     grid.style.backgroundColor = 'white';
 }
 
+function attachListener(){
+    const gridItems = document.querySelectorAll(".grid"); // Get fresh grid items
+    gridItems.forEach((grid) => {
+        grid.removeEventListener("mousedown", handleMouseDown);
+        grid.removeEventListener("mouseover", handleMouseOver);
+        grid.removeEventListener("mouseup", handleMouseUp);
 
-createGrid();
-const gridItems = document.querySelectorAll('.grid');
-
-gridItems.forEach(grid =>{
-    console.log(action);
-    if(action === "draw"){
-        grid.addEventListener("mousedown", () =>{
-            isDrawing = true;
-            draw(grid);
-        });
-        grid.addEventListener("mouseover", () =>{
-            if(isDrawing)
-            draw(grid);
-        });
-        grid.addEventListener("mouseup", () =>{
-            isDrawing = false;
-        });
-    }
-    else if(action === "erase"){
-         grid.addEventListener("mousedown", () =>{
-            isDrawing = true;
-            erase(grid);
-        });
-        grid.addEventListener("mouseover", () =>{
-            if(isDrawing)
-            erase(grid);
-        });
-        grid.addEventListener("mouseup", () =>{
-            isDrawing = false;
-        });
-    }
-    
-});
-
-
-//////////////////////////////
-clearBtn.onclick = () => clearSketch();
-function clearSketch(){
-    gridItems.forEach(grid =>{
-        grid.style.backgroundColor = 'white';
+        grid.addEventListener("mousedown", handleMouseDown);
+        grid.addEventListener("mouseover", handleMouseOver);
+        grid.addEventListener("mouseup", handleMouseUp);
     });
 }
 
+function handleMouseDown(e) {
+    isDrawing = true;
+    if (action === "draw") {
+        draw(e.target);
+    } else if (action === "erase") {
+        erase(e.target);
+    }
+}
+
+function handleMouseOver(e) {
+    if (isDrawing) {
+        if (action === "draw") {
+            draw(e.target);
+        } else if (action === "erase") {
+            erase(e.target);
+        }
+    }
+}
+
+function handleMouseUp() {
+    isDrawing = false;
+}
+
+function  clearSketch(){
+    const gridItems = document.querySelectorAll(".grid");
+    gridItems.forEach((grid) => {
+        grid.style.backgroundColor = "white";
+    });
+}
+
+
+clearBtn.addEventListener("click", () => {
+    clearSketch();
+});
+eraserBtn.addEventListener("click", () =>{
+    action = "erase";
+    attachListener();
+});
+staticBtn.addEventListener("click", () =>{
+    action = "draw";
+    currentColor = "black";
+    attachListener();
+});
+rainbowBtn.addEventListener("click", () =>{
+    action = "draw";
+    currentColor = "rainbowMode";
+    attachListener();
+});
+toggleBtn.addEventListener("click", () => {
+    const gridItems = document.querySelectorAll(".grid");
+    gridItems.forEach((grid) => {
+        grid.classList.toggle("no-border");
+    });
+});
+rangeInput.addEventListener("input", () => {
+    size = rangeInput.value;
+    rangeLabel.textContent = `Grid Size: ${size}x${size}`;
+    createGrid();
+});
+
+
+
+
+///////////////
+rangeLabel.textContent = `Grid Size: ${size}x${size}`;
+createGrid();
 

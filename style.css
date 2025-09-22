@@ -38,3 +38,7 @@ body{
     flex: 1;
 }
 
+.no-border {
+    border: none !important;
+}
+
