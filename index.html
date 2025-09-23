@@ -6,14 +6,15 @@
         <title>Etch a Sketch</title>
     </head>
     <body>
-        <div class="header">
-            <h1>Etch-a-sketch</h1>
-        </div>
+        
         <div class="container">
              <div class="tools">
                 <h2>Tools</h2>
-                <label for="gridSize" class="range-label">Grid Size: 16x16</label>
-                <input type="range" name="gridSize" id="gridSize" min="16" max="100" value="16">
+                <div class="rangeInput">
+                    <label for="gridSize" class="range-label">Grid Size: 16x16</label>
+                    <input type="range" name="gridSize" id="gridSize" min="16" max="100" value="16">
+                </div>
+                
                 <button id="staticMode">Static color</button>
                 <button id="rainbowMode">Rainbow mode</button>
                 <button id="eraser">Toggle eraser</button>
@@ -21,7 +22,13 @@
                 <button id="toggleGrid">Toggle grid lines</button>
                 
             </div>
-            <div id="grid-container"></div>
+            <div class="sketch-area">
+                <div class="header">
+                    <h1>Etch-a-sketch</h1>
+                </div>
+                <div id="grid-container"></div>
+            </div>
+            
            
         </div>
 

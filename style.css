@@ -5,7 +5,14 @@ body{
     background: linear-gradient(45deg, #f9f5f0 0%, #f0f2f5 100%);
 
 }
-
+button{
+    background-color:azure;
+    border: 1px solid lightgray;
+    padding: 5px;
+}
+button:hover{
+    background-color: white;
+}
 .header h1{
     font-size: 64px;
     text-align: center;
@@ -19,7 +26,7 @@ body{
     display: flex;
     flex-direction: column;
     gap: 32px;
-
+    justify-content: center;
 }
 #grid-container{
     display: flex;
@@ -36,6 +43,10 @@ body{
     border:1px solid lightgray;
     display: flex;
     flex: 1;
+}
+.rangeInput{
+    display: flex;
+    flex-direction: column;
 }
 
 .no-border {
